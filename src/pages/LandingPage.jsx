@@ -6,6 +6,7 @@ import {
   ChevronRight, Star, Lock, Globe
 } from 'lucide-react';
 import AnimatedCounter from '../components/ui/AnimatedCounter';
+import { SignedIn, SignedOut, SignInButton, UserButton } from '@clerk/clerk-react';
 import './LandingPage.css';
 
 const features = [
@@ -70,10 +71,20 @@ export default function LandingPage() {
             <a href="#about">About</a>
           </div>
           <div className="landing-nav-actions">
-            <button className="landing-nav-signin" onClick={() => navigate('/dashboard')}>Sign In</button>
-            <button className="landing-nav-cta" onClick={() => navigate('/dashboard')}>
-              Start Diligence <ArrowRight size={14} />
-            </button>
+            <SignedIn>
+              <UserButton afterSignOutUrl="/" />
+              <button className="landing-nav-cta" onClick={() => navigate('/dashboard')}>
+                Go to Dashboard <ArrowRight size={14} />
+              </button>
+            </SignedIn>
+            <SignedOut>
+              <SignInButton mode="modal">
+                <button className="landing-nav-signin">Sign In</button>
+              </SignInButton>
+              <button className="landing-nav-cta" onClick={() => navigate('/dashboard')}>
+                Start Diligence <ArrowRight size={14} />
+              </button>
+            </SignedOut>
           </div>
         </div>
       </nav>

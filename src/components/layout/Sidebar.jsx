@@ -5,6 +5,7 @@ import {
   Users, Settings, ChevronRight, Plus, Zap,
   LogOut, Bell, Command
 } from 'lucide-react';
+import { UserButton } from '@clerk/clerk-react';
 import './Sidebar.css';
 
 const navItems = [
@@ -102,15 +103,8 @@ export default function Sidebar() {
           <span>Settings</span>
         </NavLink>
         {/* User */}
-        <div className="sidebar-user">
-          <div className="sidebar-avatar">SK</div>
-          <div className="sidebar-user-info">
-            <span className="sidebar-user-name">Sarah Kim</span>
-            <span className="sidebar-user-role">Partner</span>
-          </div>
-          <button className="sidebar-logout">
-            <LogOut size={14} />
-          </button>
+        <div className="sidebar-user clerk-sidebar-user">
+          <UserButton showName />
         </div>
       </div>
     </aside>
