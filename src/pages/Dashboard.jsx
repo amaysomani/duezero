@@ -62,7 +62,7 @@ export default function Dashboard() {
         {/* Header */}
         <div className="dashboard-header">
           <div>
-            <h1 className="dashboard-title">Good morning, Sarah.</h1>
+            <h1 className="dashboard-title">Good morning, Saket.</h1>
             <p className="dashboard-sub">Here's an overview of your active due diligence matters.</p>
           </div>
           <button className="dashboard-new-btn" onClick={() => navigate('/project/techcorp-ma')}>

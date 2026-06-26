@@ -121,10 +121,7 @@ export default function LandingPage() {
 
         {/* Hero content */}
         <div className="hero-content">
-          <div className="hero-eyebrow">
-            <span className="hero-eyebrow-dot" />
-            <span>AI-Powered Legal Due Diligence</span>
-          </div>
+
 
           <h1 className="hero-headline">
             Institutional-Grade<br />
