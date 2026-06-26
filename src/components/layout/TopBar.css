@@ -42,6 +42,11 @@
   gap: 10px;
 }
 
+/* Search wrap (for dropdown positioning) */
+.topbar-search-wrap {
+  position: relative;
+}
+
 .topbar-search {
   display: flex;
   align-items: center;
@@ -55,6 +60,7 @@
   width: 220px;
 }
 
+.topbar-search-focused,
 .topbar-search:focus-within {
   border-color: var(--border-hover);
   width: 280px;
@@ -89,6 +95,81 @@
   flex-shrink: 0;
 }
 
+.topbar-search-clear {
+  width: 18px;
+  height: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: var(--bg-elevated);
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: all var(--transition-fast);
+}
+
+.topbar-search-clear:hover { background: var(--border); color: var(--text-primary); }
+
+/* Search dropdown */
+.topbar-search-dropdown {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  right: 0;
+  min-width: 280px;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-hover);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+  z-index: 100;
+  overflow: hidden;
+  animation: fadeInDown 0.12s ease;
+}
+
+@keyframes fadeInDown {
+  from { opacity: 0; transform: translateY(-4px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.topbar-search-result {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  width: 100%;
+  padding: 10px 14px;
+  background: none;
+  border: none;
+  border-bottom: 1px solid var(--border);
+  cursor: pointer;
+  font-family: var(--font-sans);
+  text-align: left;
+  transition: background var(--transition-fast);
+}
+
+.topbar-search-result:last-child { border-bottom: none; }
+.topbar-search-result:hover { background: rgba(255,255,255,0.04); }
+
+.topbar-result-label {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-primary);
+}
+
+.topbar-result-sub {
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
+.topbar-search-empty {
+  padding: 14px;
+  font-size: 13px;
+  color: var(--text-muted);
+  text-align: center;
+}
+
+/* Icon buttons */
 .topbar-icon-btn {
   width: 32px;
   height: 32px;
@@ -101,9 +182,23 @@
   cursor: pointer;
   background: none;
   border: none;
+  position: relative;
 }
 
 .topbar-icon-btn:hover {
   background: var(--bg-card);
   color: var(--text-primary);
 }
+
+/* Notification badge */
+.topbar-notif-badge {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  width: 6px;
+  height: 6px;
+  background: var(--danger);
+  border-radius: 50%;
+  border: 1.5px solid #080808;
+}
+

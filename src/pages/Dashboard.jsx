@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
   Plus, ArrowRight, TrendingUp, AlertTriangle,
@@ -16,10 +16,10 @@ import {
 } from 'recharts';
 
 const statCards = [
-  { label: 'Documents Reviewed', value: statsData.documentsReviewed, icon: FileText, suffix: '', color: 'var(--accent)' },
-  { label: 'Issues Flagged', value: statsData.issuesFlagged, icon: AlertTriangle, suffix: '', color: 'var(--danger)' },
-  { label: 'Reports Generated', value: statsData.reportsGenerated, icon: BarChart3, suffix: '', color: 'var(--info)' },
-  { label: 'Active Projects', value: statsData.activeProjects, icon: TrendingUp, suffix: '', color: 'var(--success)' },
+  { label: 'Documents Reviewed', value: statsData.documentsReviewed, icon: FileText,    suffix: '', color: 'var(--accent)',  to: '/project/techcorp-ma' },
+  { label: 'Issues Flagged',      value: statsData.issuesFlagged,     icon: AlertTriangle,suffix: '', color: 'var(--danger)', to: '/project/techcorp-ma/document/techcorp-ma-doc-2' },
+  { label: 'Reports Generated',   value: statsData.reportsGenerated,  icon: BarChart3,   suffix: '', color: 'var(--info)',   to: '/project/techcorp-ma/report' },
+  { label: 'Active Projects',     value: statsData.activeProjects,    icon: TrendingUp,  suffix: '', color: 'var(--success)',to: '/projects' },
 ];
 
 const activityIcons = {
@@ -54,7 +54,6 @@ const CustomTooltip = ({ active, payload, label }) => {
 
 export default function Dashboard() {
   const navigate = useNavigate();
-  const [heatmapHover, setHeatmapHover] = useState(null);
 
   return (
     <AppShell topBarProps={{ breadcrumbs: ['Dashboard'] }}>
@@ -68,14 +67,19 @@ export default function Dashboard() {
           </div>
           <button className="dashboard-new-btn" onClick={() => navigate('/project/techcorp-ma')}>
             <Plus size={16} />
-            New Project
+            Open Project
           </button>
         </div>
 
         {/* Stat Cards */}
         <div className="stats-grid">
-          {statCards.map(({ label, value, icon: Icon, suffix, color }, i) => (
-            <div key={i} className="stat-card-dash">
+          {statCards.map(({ label, value, icon: Icon, suffix, color, to }, i) => (
+            <div
+              key={i}
+              className="stat-card-dash"
+              style={{ cursor: 'pointer' }}
+              onClick={() => navigate(to || '/dashboard')}
+            >
               <div className="stat-card-left">
                 <p className="stat-card-label">{label}</p>
                 <p className="stat-card-value" style={{ color }}>
@@ -96,7 +100,7 @@ export default function Dashboard() {
           <div className="dashboard-section projects-section">
             <div className="section-row">
               <h2 className="section-heading">Recent Projects</h2>
-              <button className="section-link">View all <ArrowRight size={13} /></button>
+              <button className="section-link" onClick={() => navigate('/projects')}>View all <ArrowRight size={13} /></button>
             </div>
             <div className="projects-list">
               {projects.map((p) => (
@@ -144,7 +148,15 @@ export default function Dashboard() {
             </div>
             <div className="activity-list">
               {activities.map((a) => (
-                <div key={a.id} className="activity-item">
+                <div
+                  key={a.id}
+                  className="activity-item"
+                  style={{ cursor: 'pointer' }}
+                  onClick={() => {
+                    const proj = projects.find(p => p.name === a.project);
+                    if (proj) navigate(`/project/${proj.id}`);
+                  }}
+                >
                   <div className="activity-icon" style={{
                     background: `${activityColors[a.type]}15`,
                     color: activityColors[a.type],
@@ -202,15 +214,19 @@ export default function Dashboard() {
             </div>
             <div className="pending-list">
               {[
-                { doc: 'Master_Services_Agreement_v4.pdf', project: 'TechCorp Acquisition', due: 'Today', priority: 'critical' },
-                { doc: 'Cap_Table_v12.xlsx', project: 'TechCorp Acquisition', due: 'Today', priority: 'critical' },
-                { doc: 'CEO_Employment_Agreement.pdf', project: 'TechCorp Acquisition', due: 'Tomorrow', priority: 'major' },
-                { doc: 'SOC2_Type1_Report.pdf', project: 'Atlas Series B', due: 'Jun 28', priority: 'minor' },
-                { doc: 'HQ_Lease_Agreement.pdf', project: 'Harbor RE Portfolio', due: 'Jun 29', priority: 'major' },
-                { doc: 'Litigation_Schedule_2026.pdf', project: 'Harbor RE Portfolio', due: 'Jun 30', priority: 'critical' },
-                { doc: 'Tax_Returns_2022_2024.pdf', project: 'TechCorp Acquisition', due: 'Jul 1', priority: 'major' },
+                { doc: 'Master_Services_Agreement_v4.pdf', projectId: 'techcorp-ma',     docId: 'techcorp-ma-doc-2',  project: 'TechCorp Acquisition', due: 'Today',    priority: 'critical' },
+                { doc: 'Cap_Table_v12.xlsx',                projectId: 'techcorp-ma',     docId: 'techcorp-ma-doc-6',  project: 'TechCorp Acquisition', due: 'Today',    priority: 'critical' },
+                { doc: 'CEO_Employment_Agreement.pdf',      projectId: 'techcorp-ma',     docId: 'techcorp-ma-doc-17', project: 'TechCorp Acquisition', due: 'Tomorrow', priority: 'major'    },
+                { doc: 'SOC2_Type1_Report.pdf',             projectId: 'atlas-series-b',  docId: 'atlas-series-b-doc-1',project: 'Atlas Series B',       due: 'Jun 28',  priority: 'minor'    },
+                { doc: 'HQ_Lease_Agreement.pdf',            projectId: 'harbor-realestate',docId: 'harbor-realestate-doc-1', project: 'Harbor RE Portfolio', due: 'Jun 29', priority: 'major' },
+                { doc: 'Litigation_Schedule_2026.pdf',      projectId: 'harbor-realestate',docId: 'harbor-realestate-doc-1', project: 'Harbor RE Portfolio', due: 'Jun 30', priority: 'critical' },
+                { doc: 'Tax_Returns_2022_2024.pdf',         projectId: 'techcorp-ma',     docId: 'techcorp-ma-doc-22', project: 'TechCorp Acquisition', due: 'Jul 1',   priority: 'major'    },
               ].map((item, i) => (
-                <div key={i} className="pending-item" onClick={() => navigate('/project/techcorp-ma/document/techcorp-ma-doc-2')}>
+                <div
+                  key={i}
+                  className="pending-item"
+                  onClick={() => navigate(`/project/${item.projectId}/document/${item.docId}`)}
+                >
                   <div className="pending-item-left">
                     <Badge variant={item.priority} size="sm">{item.priority}</Badge>
                     <div className="pending-item-info">
