@@ -120,6 +120,14 @@ export default function LandingPage() {
         </div>
 
         {/* Hero content */}
+        <div className="ai-orb-container">
+          <div className="ai-orb">
+            <div className="ai-orb-core"></div>
+            <div className="ai-orb-ring"></div>
+            <div className="ai-orb-ring-2"></div>
+          </div>
+        </div>
+
         <div className="hero-content">
 
 
